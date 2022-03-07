@@ -1,0 +1,45 @@
+Radu Cosmin 323 CB
+
+Tema 3 - Client Web
+
+Pentru creearea obiectelor de tip json sau parsarea unuia existent intr-un
+raspuns de la server am folosit biblioteca parson.
+
+De asemenea, am utilizat in rezolvarea temei si o parte din fisierele din
+laboratorul 10, in request.c aducand cateva modificari functiilor initiale si
+implementand si o comanda pentru creearea mesajelor de tip DELETE.
+
+Clientul creat va astepta mereu comenzi de la tastatura pana la intalnirea
+comenzii exit. In functie de tipul comenzii, am creat o functie ce intoarce
+un numar pentru fiecare tip de comanda, numar ce va fi utilizat ulterior
+intr-un switch. Pentru comenzile register si login logica este asemanatoare.
+Se vor citi de la tastatura numele si parola, se va creea un obiect json
+folosind functiile specifice din biblioteca parson, se va crea un mesaj de
+tip post cu url-ul aferent utilizand functiile din request.c si se va trimite
+mesajul creat la server. Apoi se va astepta un raspuns de la server,
+verificandu-se ulterior tipul acestuia pentru a se afisa si un mesaj
+corespunzator. Daca era comanda de login, se va extrage in plus si un cookie
+facand strtok pe raspuns cu \n ca delimitator si cautandu-se randul ce contine
+un cookie, daca exista.
+
+Pentru comanda enter_library, am creat un mesaj de tip get cu url-ul aferent
+si cookie-ul de logare, verificand intai daca exista vreun utilizator logat.
+Apoi, am trimis mesajul la server, am extras din raspuns token-ul jwt daca
+exista, si am afisat un mesaj in functie de tipul raspunsului.
+
+Pentru comenzile get_books si get_book functionalitatea este asemanatoare cu
+cea de la enter_library doar ca se adauga in mesajul de tip get si token-ul
+jwt, daca acesta exista. Diferenta dintre cele doua este data de faptul ca la
+get_book se citeste si id-ul unei carti si se formeaza un url nou cu acesta.
+
+In cazul adaugarii unei carti, logica va fi cea de la comanda de inregistrare,
+in sensul ca se va forma un obiect json cu datele cartii, se va forma un mesaj
+in care se vor adauga json-ul si token-ul jwt, daca exista, se va trimite la
+server mesajul si se va interpreta raspunsul. Pentru comanda de delete am
+creat o noua functie in request.c care practic are aceeasi functionalitate
+ca cea de get, doar ca se inlocuieste tipul comenzii cu delete.
+
+Pentru comanda logout am verificat intai daca exista un cookie disponibil
+(daca exista un utilizator logat), am creeat un mesaj de tip get la care am
+adaugat cookie-ul si l-am trimis la server. Iar pentru comanda exit am setat
+variabila loop la 1 pentru a opri while-ul de citire.
